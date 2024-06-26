@@ -1,0 +1,36 @@
+<div>
+  <h2>User List</h2>
+  <ul class="list-group">
+    <li *ngFor="let user of users" class="list-group-item">
+      <app-user-list-item 
+        [user]="user"
+        (viewDetails)="viewUserDetails($event)"
+        (editUser)="editUser($event)"
+        (deleteUser)="deleteUser($event)"
+        (saveUser)="saveUser($event)"
+        (cancelEdit)="cancelEdit($event)">
+      </app-user-list-item>
+    </li>
+  </ul>
+  <button *ngIf="!showAddUserForm" class="btn btn-primary my-2" (click)="toggleAddUserForm()">Add New User <i class="fa fa-plus-square-o"></i></button>
+  <div *ngIf="showAddUserForm">
+    <form (ngSubmit)="addUser()" #addUserForm="ngForm">
+      <div class="form-group">
+        <label for="name-new">Name:</label>
+        <input type="text" id="name-new" [(ngModel)]="newUser.name" name="name-new" class="form-control" required #nameNew="ngModel">
+        <div *ngIf="nameNew.invalid && (nameNew.dirty || nameNew.touched)" class="text-danger">
+          <div *ngIf="nameNew.errors?.['required']">Name is required.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email-new">Email:</label>
+        <input type="email" id="email-new" [(ngModel)]="newUser.email" name="email-new" class="form-control" required #emailNew="ngModel">
+        <div *ngIf="emailNew.invalid && (emailNew.dirty || emailNew.touched)" class="text-danger">
+          <div *ngIf="emailNew.errors?.['required']">Email is required.</div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-sm" [disabled]="addUserForm.invalid">Add User</button>
+      <button type="button" class="btn btn-secondary btn-sm" (click)="toggleAddUserForm()">Cancel</button>
+    </form>
+  </div>
+</div>

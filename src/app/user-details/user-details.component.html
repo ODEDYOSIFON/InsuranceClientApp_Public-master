@@ -1,0 +1,28 @@
+<div>
+  <h2>User Details</h2>
+  <div *ngIf="user">
+    <p class="h5"><strong>Name:</strong> {{ user.name }}</p>
+    <p class="h5"><strong>Email:</strong> {{ user.email }}</p>
+    <h3>Insurance Policies</h3>
+    <app-insurance-policy-list
+      [policies]="user.insurancePolicies"
+      (save)="addOrUpdateInsurancePolicy($event)"
+      (cancel)="cancelAddPolicy()"
+      (delete)="deleteInsurancePolicy($event)"
+      (policyAddedOrUpdated)="loadUserDetails()">
+    </app-insurance-policy-list>
+    <div *ngIf="user.insurancePolicies.length === 0" class="mt-3">
+      <p class="h5">This user has no insurance policies.</p>
+    </div>
+    <button *ngIf="!showAddPolicyForm" class="btn btn-primary btn-sm" (click)="showAddPolicy()">Add Policy</button>
+    <app-insurance-policy-form
+      *ngIf="showAddPolicyForm"
+      [policy]="newPolicy"
+      [isEditMode]="false"
+      [redirectAfterAction]="redirectUrl"
+      (save)="addOrUpdateInsurancePolicy($event)"
+      (cancel)="cancelAddPolicy()"
+      (policyAddedOrUpdated)="loadUserDetails()">
+    </app-insurance-policy-form>
+  </div>
+</div>

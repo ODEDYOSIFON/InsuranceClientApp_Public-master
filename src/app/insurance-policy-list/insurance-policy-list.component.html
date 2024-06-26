@@ -1,0 +1,34 @@
+<div class="mb-3">
+   
+    <div class="mb-3">
+        <div class="row align-items-end">
+          <div class="col-md-3">
+            <p class="h5 mb-2">Filter by Start Date</p>
+          </div>
+          <div class="col-md-3">
+            <label for="fromDate" class="mb-0">From Date:</label>
+            <input type="date" id="fromDate" [(ngModel)]="fromDate" class="form-control">
+          </div>
+          <div class="col-md-3">
+            <label for="toDate" class="mb-0">To Date:</label>
+            <input type="date" id="toDate" [(ngModel)]="toDate" class="form-control">
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-primary" (click)="filterPolicies()">Filter</button>
+          </div>
+        </div>
+      </div>
+  
+  <ul class="list-group">
+    <li *ngFor="let policy of filteredPolicies" class="list-group-item">
+      <app-insurance-policy-form
+        [policy]="policy"
+        [isEditMode]="true"
+        (save)="addOrUpdateInsurancePolicy($event)"
+        (cancel)="cancelAddPolicy()"
+        (delete)="deleteInsurancePolicy($event)"
+        (policyAddedOrUpdated)="policyAddedOrUpdated.emit()">
+      </app-insurance-policy-form>
+    </li>
+  </ul>
+  

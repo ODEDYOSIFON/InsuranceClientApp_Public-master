@@ -1,0 +1,71 @@
+<div>
+  <h2 *ngIf="isEditMode">{{ editable ? 'Edit Policy' : 'Policy Details' }}</h2>
+  <h2 *ngIf="!isEditMode">{{ 'Add Policy' }}</h2>
+
+  <form *ngIf="editable || !isEditMode" (ngSubmit)="onSubmit()" #policyForm="ngForm">
+    <div class="row mb-3">
+      <label for="policyNumber" class="col-md-2 col-form-label">Policy Number:</label>
+      <div class="col-md-6">
+        <input type="text" id="policyNumber" [(ngModel)]="policy.policyNumber" name="policyNumber" class="form-control" required [readonly]="!editable && isEditMode" #policyNumber="ngModel">
+        <div *ngIf="policyNumber.invalid && (policyNumber.dirty || policyNumber.touched)" class="text-danger">
+          <div *ngIf="policyNumber.errors?.['required']">Policy Number is required.</div>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label for="insuranceAmount" class="col-md-2 col-form-label">Insurance Amount:</label>
+      <div class="col-md-6">
+        <input type="number" id="insuranceAmount" [(ngModel)]="policy.insuranceAmount" name="insuranceAmount" class="form-control" required [readonly]="!editable && isEditMode" #insuranceAmount="ngModel">
+        <div *ngIf="insuranceAmount.invalid && (insuranceAmount.dirty || insuranceAmount.touched)" class="text-danger">
+          <div *ngIf="insuranceAmount.errors?.['required']">Insurance Amount is required.</div>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label for="startDate" class="col-md-2 col-form-label">Start Date:</label>
+      <div class="col-md-6">
+        <input type="date" id="startDate" [(ngModel)]="policy.startDate" name="startDate" class="form-control" required [readonly]="!editable && isEditMode" #startDate="ngModel" (ngModelChange)="resetDateError()">
+        <div *ngIf="startDate.invalid && (startDate.dirty || startDate.touched)" class="text-danger">
+          <div *ngIf="startDate.errors?.['required']">Start Date is required.</div>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label for="endDate" class="col-md-2 col-form-label">End Date:</label>
+      <div class="col-md-6">
+        <input type="date" id="endDate" [(ngModel)]="policy.endDate" name="endDate" class="form-control" required [readonly]="!editable && isEditMode" #endDate="ngModel" (ngModelChange)="resetDateError()">
+        <div *ngIf="endDate.invalid && (endDate.dirty || endDate.touched)" class="text-danger">
+          <div *ngIf="endDate.errors?.['required']">End Date is required.</div>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3" *ngIf="dateError">
+      <div class="col-md-8 offset-md-2">
+        <div class="text-danger">{{ dateError }}</div>
+      </div>
+    </div>
+    <div class="row mb-3" *ngIf="false">
+      <label for="userID" class="col-md-2 col-form-label">User ID:</label>
+      <div class="col-md-6">
+        <input type="number" id="userID" [(ngModel)]="policy.userID" name="userID" class="form-control" required [readonly]="!editable && isEditMode" #userID="ngModel">
+        <div *ngIf="userID.invalid && (userID.dirty || userID.touched)" class="text-danger">
+          <div *ngIf="userID.errors?.['required']">User ID is required.</div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-start">
+      <button type="submit" class="btn btn-primary btn-sm me-2" *ngIf="editable || !isEditMode" [disabled]="policyForm.invalid">{{ isEditMode ? 'Save Changes' : 'Add Policy' }}</button>
+      <button type="button" class="btn btn-secondary btn-sm me-2" *ngIf="editable || !isEditMode" (click)="onCancel()">Cancel</button>
+      <button type="button" class="btn btn-warning btn-sm" *ngIf="!editable && isEditMode" (click)="toggleEdit()">Edit</button>
+    </div>
+  </form>
+
+  <div *ngIf="!editable && isEditMode">
+    <p><strong>Policy Number:</strong> {{ policy.policyNumber }}</p>
+    <p><strong>Insurance Amount:</strong> {{ policy.insuranceAmount }}</p>
+    <p><strong>Start Date:</strong> {{ policy.startDate | date }}</p>
+    <p><strong>End Date:</strong> {{ policy.endDate | date }}</p>
+    <button class="btn btn-danger btn-sm me-2" (click)="deletePolicy()">Delete</button>
+    <button class="btn btn-warning btn-sm" (click)="toggleEdit()">Edit</button>
+  </div>
+</div>

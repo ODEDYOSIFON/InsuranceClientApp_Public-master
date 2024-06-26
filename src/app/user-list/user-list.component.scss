@@ -1,0 +1,32 @@
+h2 {
+    color: #2c3e50;
+  }
+  
+  button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #2980b9;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  .no-policy-text {
+    font-size: 1.25rem;  
+    color: red;  
+  }
+  
